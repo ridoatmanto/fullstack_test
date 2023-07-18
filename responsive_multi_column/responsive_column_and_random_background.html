@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<head>
+  <script src="https://cdn.bootcss.com/vue/2.5.17-beta.0/vue.min.js"></script>
+</head>
+<body>
+  <div id="app">
+    <div class="top-container">
+      <div :style="setBackground(0)" @click="nonRepeatShuffle">1</div>
+      <div :style="setBackground(1)" @click="nonRepeatShuffle">2</div>
+      <div class="two-column">
+        <div :style="setBackground(2)" @click="nonRepeatShuffle">3</div>
+        <div :style="setBackground(3)" @click="nonRepeatShuffle">4</div>
+      </div>
+    </div>
+    <div class="bottom-container">
+      <div class="left-column">
+        <div :style="setBackground(4)" @click="nonRepeatShuffle">5</div>
+        <div :style="setBackground(5)" @click="nonRepeatShuffle">6</div>
+      </div>
+      <div :style="setBackground(6)" @click="nonRepeatShuffle">7</div>
+      <div class="right-column">
+        <div :style="setBackground(7)" @click="nonRepeatShuffle">8</div>
+        <div :style="setBackground(8)" @click="nonRepeatShuffle">9</div>
+      </div>
+    </div>
+  </div>
+</body>
+<style>
+  div {
+    border-radius: 4px;
+  }
+
+  #app {
+    margin: auto;
+    padding: 16px;
+    background-color: #d9dde0;
+    font: bold normal 24px Arial;
+    color: #fff;
+    text-align: center;
+  }
+
+  .top-container div {
+    margin-bottom: 16px;
+  }
+
+  .two-column {
+    display: flex;
+    flex: flex-wrap;
+  }
+
+  .two-column > div {
+    margin-bottom: 0;
+    float: left;
+    width: 48%;
+  }
+
+  .two-column > div:first-child {
+    margin-right: 4%;
+  }
+
+  .left-column > div:first-child,
+  .right-column > div:first-child {
+    margin-bottom: 16px;
+  }
+
+  @media only screen and (min-width: 601px) {
+    #app {
+      max-width: 900px;
+    }
+
+    .top-container,
+    .bottom-container {
+      display: flex; 
+      flex-direction: column; 
+      flex-wrap: wrap; /* wih height,make it new colum*/
+      max-height: 400px;
+    }
+
+    .top-container > div {
+      height: 150px;
+      line-height: 150px;
+      width: 49%;
+    }
+
+    .top-container > div:first-child {
+      height: 316px;
+      line-height: 316px;
+      margin-right: 2%;
+    }
+
+    .top-container > div:nth-child(2) {
+      order: 2;
+    }
+
+    .two-column {
+      order: 3;
+    }
+
+    .bottom-container > div {
+      height: 300px;
+      line-height: 300px;
+      width: 28%;
+    }
+
+    .bottom-container > div:nth-child(2) {
+      width: 40%;
+      order: 2;
+      margin-right: 2%;
+    }
+
+    .bottom-container > .left-column {
+      order: 1;
+      margin-right: 2%;
+    }
+
+    .bottom-container > .right-column {
+      order: 3;
+    }
+
+    .left-column > div:nth-child(2),
+    .right-column > div:first-child {
+      height: 170px;
+      line-height: 170px;
+    }
+
+    .left-column > div:first-child,
+    .right-column > div:nth-child(2) {
+      height: 114px;
+      line-height: 114px;
+    }
+  }
+
+  @media only screen and (max-width: 600px) {
+
+    .top-container,
+    .bottom-container {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .top-container > div,
+    .bottom-container > div {
+      width: 100%;
+      line-height: 100px;
+    }
+
+    .top-container > div:nth-child(2) {
+      order: 2;
+    }
+
+    .two-column {
+      order: 1;
+    }
+
+    .bottom-container > .left-column {
+      margin-right: 4%;
+    }
+
+    .bottom-container > div:nth-child(2) {
+      order: -1;
+      margin-bottom: 16px;
+    }
+
+    .bottom-container > .left-column,
+    .bottom-container > .right-column {
+      width: 48%;
+    }
+  }
+</style>
+
+<script>
+  var vm = new Vue({
+    el: '#app',
+    data: {
+      colors: ['#0089E0', '#E53458', '#8C7A5B', '#B85E61', '#7F00CB',
+               '#00B19F', '#007A67', '#6953FE', '#475C6D']
+    },
+    methods:{
+      nonRepeatShuffle() {
+        let arrLength = this.colors.length;
+        let firstColor = this.colors[0]
+
+        for (let key in this.colors) {
+          let nextKey = parseInt(key) + 1
+          let replaceWith = (nextKey === arrLength) ? firstColor : this.colors[nextKey]
+          this.colors.splice(key, 1, replaceWith);
+        }
+      },
+      setBackground(index) {
+        return { backgroundColor: this.colors[index] }
+      }
+    }
+  });
+</script>
